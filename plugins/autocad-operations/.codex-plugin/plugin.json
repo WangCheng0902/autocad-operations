@@ -1,6 +1,6 @@
 {
   "name": "autocad-operations",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "Safely inspect, modify, and verify AutoCAD drawings with scoped reads, repeatable checks, and structured issue learning.",
   "author": {
     "name": "Kristin_W",

@@ -1,0 +1,43 @@
+name: Validate plugin
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate JSON and Python
+        shell: pwsh
+        run: |
+          Get-Content .agents/plugins/marketplace.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content plugins/autocad-operations/.codex-plugin/plugin.json -Raw | ConvertFrom-Json | Out-Null
+          python -m py_compile scripts/check_environment.py
+          python -m py_compile plugins/autocad-operations/skills/autocad-operations/scripts/record_cad_event.py
+          python -m py_compile plugins/autocad-operations/skills/autocad-operations/scripts/summarize_cad_run.py
+      - name: Check required plugin files
+        shell: pwsh
+        run: |
+          $required = @(
+            'plugins/autocad-operations/.codex-plugin/plugin.json',
+            'plugins/autocad-operations/skills/autocad-operations/SKILL.md',
+            'install.ps1',
+            'uninstall.ps1',
+            'LICENSE'
+          )
+          foreach ($path in $required) {
+            if (-not (Test-Path -LiteralPath $path)) { throw "Missing required file: $path" }
+          }
+      - name: Reject sensitive or machine-specific content
+        shell: pwsh
+        run: |
+          $tracked = git ls-files | Where-Object { $_ -ne '.github/workflows/validate.yml' }
+          $patterns = 'C:\\Users\\|C:/Users/|api[_-]?key\s*=|password\s*=|token\s*='
+          $hits = Select-String -Path $tracked -Pattern $patterns -ErrorAction SilentlyContinue
+          if ($hits) { $hits | Format-Table; throw 'Sensitive or machine-specific content detected.' }

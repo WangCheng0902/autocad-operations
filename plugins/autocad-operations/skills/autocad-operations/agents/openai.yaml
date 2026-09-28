@@ -1,6 +1,6 @@
 interface:
   display_name: "AutoCAD工程操作"
-  short_description: "按任务范围读取、修改、核验并改进AutoCAD工程图"
+  short_description: "按任务读取、操作、核验并持续改进AutoCAD工程图"
   default_prompt: "Use $autocad-operations to inspect or modify this AutoCAD drawing with scoped reads, verification, and issue logging."
 policy:
   allow_implicit_invocation: true

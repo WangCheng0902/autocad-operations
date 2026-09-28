@@ -1,0 +1,41 @@
+name: Bug report
+description: 报告安装、MCP、AutoCAD操作或核验问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: 环境
+      description: Windows、AutoCAD、Codex、Python和multiCAD-mcp版本
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: 执行任务
+      description: 请描述授权范围和预期结果，不要上传敏感DWG。
+    validations:
+      required: true
+  - type: textarea
+    id: symptom
+    attributes:
+      label: 可观察症状
+      description: 错误信息、日志摘要或脱敏截图
+    validations:
+      required: true
+  - type: textarea
+    id: recovery
+    attributes:
+      label: 已尝试的恢复方法
+  - type: textarea
+    id: verification
+    attributes:
+      label: 核验结果
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我已移除凭证、客户数据、个人路径和敏感图纸内容。
+          required: true

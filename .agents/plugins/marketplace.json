@@ -1,0 +1,20 @@
+{
+  "name": "autocad-operations-marketplace",
+  "interface": {
+    "displayName": "Kristin_W CAD Tools"
+  },
+  "plugins": [
+    {
+      "name": "autocad-operations",
+      "source": {
+        "source": "local",
+        "path": "./plugins/autocad-operations"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

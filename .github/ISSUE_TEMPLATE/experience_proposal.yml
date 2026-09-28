@@ -1,0 +1,30 @@
+name: CAD experience proposal
+description: 提交可复用的CAD问题经验或规则候选
+title: "[Experience] "
+labels: ["experience-candidate"]
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: 已观察事实
+    validations:
+      required: true
+  - type: textarea
+    id: candidate
+    attributes:
+      label: 候选解决方法
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: 复现和验证范围
+      description: 是否已在另一张DWG或另一台电脑验证？
+    validations:
+      required: true
+  - type: textarea
+    id: exclusions
+    attributes:
+      label: 不适用条件和风险
+    validations:
+      required: true
