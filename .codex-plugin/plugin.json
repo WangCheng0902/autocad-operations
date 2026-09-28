@@ -1,0 +1,27 @@
+{
+  "name": "autocad-operations",
+  "version": "0.1.0",
+  "description": "Safely inspect, modify, and verify AutoCAD drawings with scoped reads, repeatable checks, and structured issue learning.",
+  "author": {
+    "name": "Kristin_W",
+    "url": "https://github.com/WangCheng0902"
+  },
+  "homepage": "https://github.com/WangCheng0902/autocad-operations",
+  "repository": "https://github.com/WangCheng0902/autocad-operations",
+  "license": "MIT",
+  "keywords": ["autocad", "cad", "mcp", "engineering-drawing", "codex"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AutoCAD工程操作",
+    "shortDescription": "安全读取、修改、核验AutoCAD工程图",
+    "longDescription": "为Codex提供AutoCAD任务范围读取、对象级修改、视觉核验、故障降级和问题经验沉淀工作流。首版支持Windows 11、AutoCAD 2023和Codex桌面版。",
+    "developerName": "Kristin_W",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "检查当前AutoCAD图纸，不要修改任何内容。",
+      "按任务范围修改DWG并完成对象与视觉核验。",
+      "诊断AutoCAD MCP连接并生成环境报告。"
+    ]
+  }
+}
