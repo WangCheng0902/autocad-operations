@@ -166,7 +166,10 @@ python .\scripts\check_environment.py --multi-cad "C:\path\to\multiCAD-mcp"
 
 ## 共同维护
 
-欢迎通过Issue和Pull Request补充CAD操作经验、安装兼容性和故障解决方法。候选经验必须提供可观察事实和验证范围，不能把单张DWG中的临时办法直接提升为全局规则。详见[CONTRIBUTING.md](CONTRIBUTING.md)。
+欢迎通过Issue和Pull Request补充CAD操作经验、安装兼容性和故障解决方法。候选经验必须提供可观察事实和验证范围，不能把单张DWG中的临时办法直接提升为全局规则。
+
+- 日常提交要求：[CONTRIBUTING.md](CONTRIBUTING.md)
+- 新图种Skill、经验分级、复验、发布与同事更新流程：[MAINTENANCE_GUIDE.md](MAINTENANCE_GUIDE.md)
 
 ## 日志位置
 

@@ -2,6 +2,8 @@
 
 感谢改进`autocad-operations`。
 
+首次参与维护、准备新增专业图种Skill，或希望把项目经验提升为正式规则时，请先阅读[Skill维护与经验提升指南](MAINTENANCE_GUIDE.md)。本文保留日常贡献所需的最简步骤。
+
 ## 工作方式
 
 1. 从`main`创建主题分支，例如`feature/environment-check`或`fix/cad-timeout`。
@@ -38,3 +40,9 @@ python -m py_compile .\plugins\autocad-operations\skills\autocad-operations\scri
 - `main`不接受未经审查的强制推送。
 - 安装器、删除逻辑、DWG写入规则和权限边界属于高风险修改，应由维护者重点复核。
 - 合并前需要通过Skill、插件、Python和敏感信息检查。
+
+## 新图种和经验提升
+
+- 仪表安装图、接线图、供气系统图等具有独立目标和核验逻辑的能力，优先建立独立Skill。
+- 项目位号、固定坐标、客户标准和正式DWG留在项目仓库，不进入公共插件。
+- 问题记录、候选经验、跨图复验和正式规则的完整流程见[MAINTENANCE_GUIDE.md](MAINTENANCE_GUIDE.md)。
