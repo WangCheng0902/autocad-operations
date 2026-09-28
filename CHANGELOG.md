@@ -10,4 +10,5 @@
 - 增加Windows一键安装、卸载和环境自检。
 - 增加Marketplace、贡献指南、Issue/PR模板及自动校验。
 - 修正本地Marketplace重复安装时误用Git升级命令的问题。
+- README新增面向已安装`multiCAD-mcp`电脑的安全安装、去重、核验和失败恢复说明。
 - 当前仍需第二台电脑进行干净安装验证。

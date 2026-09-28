@@ -35,20 +35,114 @@
 5. 安装插件并提示用户新建聊天进行验证。
 6. 运行只读自检，输出`READY`或降级状态。
 
-## 安装
+## 安装前检查
 
-在PowerShell中运行：
+正式安装前请确认：
+
+- Windows 11；
+- AutoCAD 2023；
+- Python 3.10或更高版本；
+- Git；
+- Codex桌面版，并且PowerShell中可以运行`codex --version`；
+- 已安装或准备自动下载`multiCAD-mcp`；
+- 能够访问GitHub和Python软件包源。
+
+可在PowerShell中执行：
+
+```powershell
+python --version
+git --version
+codex --version
+Test-Path "C:\Program Files\Autodesk\AutoCAD 2023\acad.exe"
+```
+
+## 最安全、最稳定的安装方法
+
+如果电脑已经安装了`multiCAD-mcp`，建议始终明确传入它的实际目录。这样可以避免安装器因无法发现非标准路径而重新克隆一份源码。
+
+### 1. 克隆本插件
 
 ```powershell
 git clone https://github.com/WangCheng0902/autocad-operations.git
 cd autocad-operations
 Set-ExecutionPolicy -Scope Process Bypass
+```
+
+### 2. 确认现有multiCAD-mcp路径
+
+以下仅为示例，请换成实际位置：
+
+```powershell
+$MultiCadPath = "D:\GitHub\multiCAD-mcp"
+Test-Path "$MultiCadPath\pyproject.toml"
+Test-Path "$MultiCadPath\src\server.py"
+```
+
+两个检查结果都应为`True`。如果不是，请先找出正确路径，不要继续正式安装。
+
+### 3. 先进行无修改模拟
+
+```powershell
+.\install.ps1 -DryRun -Yes -MultiCadPath $MultiCadPath
+```
+
+模拟模式只显示计划执行的步骤，不会修改Codex配置、MCP或插件安装状态。检查输出中的`multiCAD-mcp`路径是否正确。
+
+### 4. 进行首次正式安装
+
+```powershell
+.\install.ps1 -MultiCadPath $MultiCadPath
+```
+
+首次安装不建议使用`-Yes`。如果Codex中已经存在名为`multicad`的MCP配置，安装器会提示是否替换。确认路径和备份信息正确后再输入`y`。
+
+安装器会：
+
+1. 备份`%USERPROFILE%\.codex\config.toml`；
+2. 复用指定的`multiCAD-mcp`源码；
+3. 在`%LOCALAPPDATA%\autocad-operations\venvs\multicad`创建独立虚拟环境；
+4. 在隔离环境中安装`multiCAD-mcp`依赖；
+5. 通过Codex CLI重新登记`multicad` MCP；
+6. 注册本地Marketplace并安装插件；
+7. 运行只读环境诊断。
+
+### 5. 重启并核验
+
+安装完成后完全退出并重新启动Codex桌面版，然后新建聊天。可在PowerShell中核验：
+
+```powershell
+codex mcp get multicad --json
+codex plugin list --json
+python .\scripts\check_environment.py --multi-cad $MultiCadPath
+```
+
+诊断结果为`DEGRADED_OBJECT_ONLY`是正常的：它表示AutoCAD对象接口已配置，但Computer Use视觉能力仍需在新的Codex聊天中单独验证。
+
+## 避免重复安装
+
+- **AutoCAD和系统Python不会被重复安装。** 安装器只检查它们是否可用。
+- **明确使用`-MultiCadPath`可避免重复克隆源码。** 如果没有指定路径，安装器只会自动查找插件仓库的同级目录和插件管理目录。
+- **独立虚拟环境属于有意的隔离设计。** 即使现有`multiCAD-mcp`已经有自己的`.venv`，插件仍会创建专用环境，避免破坏同事原有环境。
+- **已有`multicad` MCP不会并列重复登记。** 安装器会在备份配置后询问是否替换同名配置。
+- **相同Marketplace路径会直接复用。** 重复运行安装器可用于修复或刷新安装。
+- 无人值守安装可使用`.\install.ps1 -Yes -MultiCadPath $MultiCadPath`，但只建议在已经完成首次交互式安装后使用。
+
+## 未安装multiCAD-mcp时
+
+如果没有现有源码，可以直接运行：
+
+```powershell
 .\install.ps1
 ```
 
-安装器会在变更前备份`%USERPROFILE%\.codex\config.toml`。如果已经存在`multicad` MCP配置，默认会要求确认后才替换。安装完成后重新启动Codex桌面版并新建聊天。
+安装器会将上游项目克隆到`%LOCALAPPDATA%\autocad-operations\dependencies\multiCAD-mcp`。此路径仍需在第二台干净电脑上完成正式验证，因此公开预览阶段更推荐使用明确的现有`-MultiCadPath`。
 
-无人值守安装可使用`.\install.ps1 -Yes`；建议先用`.\install.ps1 -DryRun`查看将执行的步骤。
+## 安装失败时
+
+- 不要连续重复执行安装命令；先阅读`%LOCALAPPDATA%\autocad-operations\logs`中的最新日志。
+- Codex配置备份位于`%USERPROFILE%\.codex`，文件名包含`config.toml.autocad-operations`和时间戳。
+- 如果失败发生在替换MCP之后，可根据日志恢复最近备份，或重新运行安装器并指定正确的`-MultiCadPath`。
+- AutoCAD与Codex应尽量以相同权限级别运行，避免一个使用管理员权限、另一个使用普通权限导致COM访问失败。
 
 ## 卸载
 
