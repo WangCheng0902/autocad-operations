@@ -179,6 +179,44 @@ python .\scripts\check_environment.py --multi-cad "C:\path\to\multiCAD-mcp"
 - 日常提交要求：[CONTRIBUTING.md](CONTRIBUTING.md)
 - 新图种Skill、经验分级、复验、发布与同事更新流程：[MAINTENANCE_GUIDE.md](MAINTENANCE_GUIDE.md)
 
+### 改进Skill并更新GitHub
+
+1. 在本仓库的`plugins/autocad-operations/skills/autocad-operations/`修改`SKILL.md`或`references/`，不要把`%USERPROFILE%\.codex\plugins\cache\`当作维护源目录；安装缓存可能在重装或升级时重建。
+2. 先记录可观察的故障、成功验证的方法及适用边界。项目DWG、客户资料、固定窗口ID和本机绝对路径不要写入公共Skill。新经验的成熟度判断见[维护指南](MAINTENANCE_GUIDE.md)。
+3. 在仓库根目录检查改动并校验：
+
+   ```powershell
+   git status --short
+   python "$env:USERPROFILE\.codex\skills\.system\skill-creator\scripts\quick_validate.py" ".\plugins\autocad-operations\skills\autocad-operations"
+   python "$env:USERPROFILE\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py" ".\plugins\autocad-operations"
+   git diff --check
+   ```
+
+4. 按[贡献指南](CONTRIBUTING.md)从`main`建立主题分支，提交本次相关文件并推送；在GitHub发起Pull Request，合并后远端`main`才包含更新。维护者直接维护`main`时，也应先确认远端没有新提交、只暂存本次文件，再提交并推送。
+
+   ```powershell
+   git add -- README.md plugins/autocad-operations/skills/autocad-operations/SKILL.md plugins/autocad-operations/skills/autocad-operations/references
+   git diff --cached --check
+   git commit -m "docs: update AutoCAD skill guidance"
+   git push origin HEAD
+   ```
+
+   上述`git add`路径是示例；按实际改动缩小范围，不要顺带提交项目资料。需要正式发布新版本时，另按[维护指南](MAINTENANCE_GUIDE.md)更新版本、变更记录并完成安装验证。
+
+### 同事从GitHub更新本地Skill
+
+以下步骤适用于已经克隆本仓库、并从该仓库的本地Marketplace安装插件的同事。在其仓库目录执行；先用`git status --short`确认没有需要保留的未提交改动，并用`codex plugin marketplace list --json`确认`autocad-operations-marketplace`指向该目录。路径不一致时，先核实实际安装来源，不要盲目重装。
+
+```powershell
+git switch main
+git pull --ff-only
+codex plugin remove autocad-operations@autocad-operations-marketplace
+codex plugin add autocad-operations@autocad-operations-marketplace
+codex plugin list
+```
+
+`git pull`只更新源文件，不会自动刷新Codex的插件缓存。同一插件版本号下，先移除再安装可避免沿用旧缓存；这只刷新插件，不会重装AutoCAD或`multiCAD-mcp`。完成后完全退出并重启Codex桌面版，新建聊天，再用实际CAD窗口截图验证视觉能力。若更新涉及安装器或MCP配置，而不仅是Skill内容，先阅读上面的安装和维护说明，使用`install.ps1 -DryRun`检查后再执行完整安装流程。
+
 ## 日志位置
 
 默认运行日志计划保存在Windows用户数据目录，不自动写入工程项目。只有用户或项目规则明确要求留档时，才将脱敏后的检查记录复制到项目目录。
