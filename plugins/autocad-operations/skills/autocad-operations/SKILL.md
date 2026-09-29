@@ -16,6 +16,7 @@ Use the smallest sufficient read scope that can support a correct and verifiable
 5. When a tool fails, a correction is required, or the workflow is inefficient, read [references/issue-learning.md](references/issue-learning.md) and record observable facts.
 6. For text placed inside an offset or rotated region of a block, read [references/block-local-tag-placement.md](references/block-local-tag-placement.md). Use it for valve-tag frames, equipment labels, and similar block-relative annotations.
 7. For installation, MCP registration, readiness states, or repeated upgrades, read [references/installation-and-diagnostics.md](references/installation-and-diagnostics.md).
+8. For a visual check of an open AutoCAD window, or when a screenshot path cannot find that window, read [references/native-window-visual-access.md](references/native-window-visual-access.md). Verify success from the actual image, not merely from a window listing.
 
 ## Required invariants
 

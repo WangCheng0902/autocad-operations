@@ -26,6 +26,14 @@
 - 无法获得视觉证据时，不把对象核验表述为视觉核验。
 - 未经任务明确授权，不修改或保存DWG。
 
+## AutoCAD窗口视觉访问与经验保存
+
+在一次Windows／AutoCAD 2023检查中，某个Computer Use入口只列出浏览器，AutoCAD截图路径也报告找不到窗口；但已安装Computer Use技能提供的原生`@oai/sky`入口找到了同一AutoCAD窗口。窗口最初处于最小化状态，激活后成功取得并查看图纸截图。因此，单一入口找不到窗口不能直接判定AutoCAD或全部Computer Use不可用；视觉访问是否成功应以实际截图为准。
+
+复用步骤写在[原生窗口视觉访问指引](plugins/autocad-operations/skills/autocad-operations/references/native-window-visual-access.md)，由插件的`SKILL.md`在视觉检查或截图失败时引导读取。指引要求先检查当前安装的Computer Use版本，再按实际窗口标题选择目标；不会固定使用某个DWG名称或窗口ID。
+
+这项经验维护在本仓库的`plugins/autocad-operations/`源目录中，因为Codex安装后的插件缓存可能在重新安装或升级时重建。只修改缓存无法保证经验留存；从本仓库安装或更新插件时，应以这里的源文件为准。
+
 ## 计划的安装流程
 
 1. 检查Windows、AutoCAD 2023、Python和Codex桌面版。
